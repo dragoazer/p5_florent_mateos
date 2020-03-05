@@ -1,0 +1,21 @@
+/*////////////////// CONTACT ///////////////////////*/
+#contactForm {
+	width: 80%;
+	border: solid 3px black;
+	border-radius: 25px;
+	margin-left: 50%;
+	transform: translate(-50%,0);
+	padding: 15px;
+	background: rgb(138,138,138);
+	color: white;
+	background: linear-gradient(90deg, rgba(138,138,138,0.9419117988992471) 0%, rgba(204,202,202,1) 50%, rgba(138,138,138,0.9447129193474265) 100%);
+}
+
+.signinButton {
+	margin-top: 10px;
+}
+
+#errorContact {
+	color: red;
+	font-weight: bold;
+}
