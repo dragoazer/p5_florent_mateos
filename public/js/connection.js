@@ -12,9 +12,14 @@ class Connection {
 			let email = $("input[name='emailConect']").val();
 			let pwd = $("input[name='pwdConect']").val();
 
+			$(".error").remove();
+
+			$("input[name='emailConect']").css("border","");
+			$("input[name='pwdConect']").css("border","");
+
 			if (!this.general.isMail(email)) {
 				error = true;
-				errorMsg = "Vous n'avez pas rempli le champs email pour vous connecter";
+				errorMsg = "Le courriel est erroné.";
 				$("input[name='emailConect']").css("border","solid 3px red");
 			}
 			if (this.general.emptyTest(pwd)) {
@@ -26,7 +31,7 @@ class Connection {
 			if (!$error) {
 				$("#connectionForm").submit();
 			} else {
-				$("#connexion").append("<p>"+error+"</p>");
+				$("#connexion").append("<p class='error'>"+error+"</p>");
 			}
 		});
 	}
@@ -36,11 +41,69 @@ class Connection {
 		$("#submitSignin").on('click', (e)=> {
 			e.preventDefault();
 			
-			let  email= $("input[name='email']").val();
+			$(".error").remove();
+			$(".valid").remove();
+
+			let email= $("input[name='email']").val();
 			let first_name = $("input[name='first_name']").val();
 			let last_name = $("input[name='last_name']").val();
-			let pseudo = $("input[name='pseudo']").val();
 			let password = $("input[name=''password]").val();
+
+			$("input[name='email']").css("border","");
+			$("input[name='first_name']").css("border","");
+			$("input[name='last_name']").css("border","");
+			$("input[name='password']").css("border","");
+
+			if (!this.general.isMail(email)) {
+				error = true;
+				errorMsg = "Le champs Email n'est pas valide.";
+				$("input[name='email']").css("border","solid 3px red");
+			}
+			if (this.general.emptyTest(first_name)) {
+				error = true;
+				errorMsg = "Le champs Email n'est pas valide.";
+				$("input[name='first_name']").css("border","solid 3px red");
+			}
+			if (this.general.emptyTest(last_name)) {
+				error = true;
+				errorMsg = "Le champs Email n'est pas valide.";
+				$("input[name='last_name']").css("border","solid 3px red");
+			}
+			if (this.general.pdwTest(password)) {
+				error = true;
+				errorMsg = "Le champs Email n'est pas valide.";
+				$("input[name='password']").css("border","solid 3px red");
+			}
+
+			if (!error) {
+				this.ajaxInscription(email,first_name,last_name,password);
+			} else {
+				$("#inscription").append("<p class='error'>"+error+"</p>");
+			}
+		});
+	}
+
+	ajaxInscription (email,first_name,last_name,password)
+	{
+		$.ajax({
+			url: 'index.php?action=registration',
+			type: 'POST',
+			data: {
+				email: email,
+				first_name: first_name,
+				last_name: last_name,
+				password: password,
+			},
+			succes : function() 
+			{
+				$("#connexion").append("<p class='valid'>Votre inscription à été pris compte veuillez vous connecter.</p>");
+				$("#inscription").append("<p class='valid'>Votre inscription à été pris compte veuillez vous connecter.</p>");
+			},
+			error : function ()
+			{
+				$("#connexion").append("<p class='error'>Erreur interne, veullez réessayer votre inscription.</p>");
+				$("#inscription").append("<p class='error'>Erreur interne, veullez réessayer votre inscription.</p>");
+			}
 		});
 	}
 }

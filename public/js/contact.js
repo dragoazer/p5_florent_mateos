@@ -18,8 +18,8 @@ class Contact {
 			let tel = $("input[name='tel']").val();
 			let message = $("input[name='message']").val();
 
-			$("#errorContact").remove();
-			$("#validContact").remove();
+			$(".error").remove();
+			$(".valid").remove();
 			
 			$("input[name='mail']").css("border","");
 			$("input[name='lastName']").css("border","");
@@ -66,7 +66,7 @@ class Contact {
 			if (!errorBol) {
 				this.sendMail(name,lastName,mail,tel,message);
 			} else {
-				$("#contactForm").append('<p id="errorContact">'+error+'</p>');
+				$("#contactForm").append('<p class="error">'+error+'</p>');
 			}
 		});
 	}
@@ -83,11 +83,13 @@ class Contact {
 				tel : tel,
 				message : message,
 			},
-			success :  function () {
-				$("#contactForm").append('<p id="validContact">Votre message à été envoyé</p>');
+			success :  function () 
+			{
+				$("#contactForm").append('<p class="valid">Votre message à été envoyé</p>');
 			},
-			error : function() {
-				$("#contactForm").append('<p id="errorContact">Votre message n\'a pue être envoyé</p>');
+			error : function () 
+			{
+				$("#contactForm").append('<p class="error">Votre message n\'a pue être envoyé</p>');
 			},
 		});	
 	}

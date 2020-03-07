@@ -28,15 +28,15 @@
 		}
 		public function setLogin ()
 		{
+			$error = false;
 			if (isset($_POST['emailConect']) AND isset($_POST['pwdConect'])) {
-				$error = false;
-				if (!empty($_POST['emailConect']) AND !empty($_POST['pwdConect'])) {
-					$email = htmlspecialchars(trim($_POST['emailConect']));
+				if (!empty($_POST['emailConect']) AND !empty($_POST['pwdConect']) AND filter_var($_POST['emailConect'], FILTER_VALIDATE_EMAIL)) {
+					$email = $_POST['emailConect'];
 					$pwd = $_POST['pwdConect'];
 					$data = [
 						"email" => $email,
 						"pwd" => $pwd,
-					]
+					];
 					$account = new Account($data);
 					$login = $this->accountModel->login($account);
 					if ($login != "error") {
@@ -60,7 +60,33 @@
 			}
 			if ($error) {
 				$title = "Connection échoué";
-				$message = "Les renseignement que vous avez prodiguer sont erroné.";
+				$message = "Les renseignements que vous avez prodigué sont erronés.";
+				$this->generalController->displayError($title,$message);
+			}
+		}
+
+		public function setRegistration ()
+		{
+			$error = false;
+			if (isset($_POST['email']) AND isset($_POST['first_name']) AND isset($_POST['last_name']) AND isset($_POST['pwd'])) {
+				if (!empty($_POST['email']) AND !empty($_POST['first_name']) AND !empty($_POST['last_name']) AND !empty($_POST['pwd'])) {
+					if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+						if (preg_match("/[a-zA-Z0-9._-]*/", $my_email)) {
+							
+						}
+					} else {
+						$error = true;
+					}			
+				} else {
+					$error = true;
+				}
+			} else {
+				$error = true;
+			}
+
+			if ($error) {
+				$title = "Inscription échoué";
+				$message = "Les renseignements que vous avez prodigué sont erronés.";
 				$this->generalController->displayError($title,$message);
 			}
 		}

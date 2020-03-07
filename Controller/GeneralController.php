@@ -19,6 +19,7 @@
 
 		public function redirectContact ()
 		{
+			$javascript = "<script src='public/js/contact.js'></script>";
 			require('template/contact.php');
 		}
 

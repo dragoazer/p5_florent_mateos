@@ -73,7 +73,6 @@
                 <?php //endif; ?>
             </nav>
         </header>
-        <script src="public/js/general.js"></script>
         <div id="content">
             <?= $content ?>
         </div>
@@ -81,6 +80,13 @@
             
         </footer>
     </body>
+    <script src="public/js/general.js"></script>
     <script src="public/js/diaporama.js"></script>
+    <!-- general script charge him on first-->
+
+    
+    <script src="public/js/connection.js"></script>
+    <?= $javascript ?? "" ?>
+    <!-- js.js is class loader charge him on last -->
     <script src="public/js/js.js"></script>
 </html>

@@ -19,7 +19,6 @@
 			<button id="sendContact" class="btn btn-secondary signinButton">Envoyer</button>
 		</div>
 	</form>
-	<script src="public/js/contact.js"></script>
 <?php
 	$content = ob_get_clean(); 
 	require('template.php'); 

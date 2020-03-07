@@ -15,12 +15,12 @@
 	margin-top: 10px;
 }
 
-#errorContact {
+.error{
 	color: red;
 	font-weight: bold;
 }
 
-#validContact {
+.valid {
 	color: green;
 	font-weight: bold;
 }
