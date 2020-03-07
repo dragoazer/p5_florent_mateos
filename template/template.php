@@ -73,6 +73,7 @@
                 <?php //endif; ?>
             </nav>
         </header>
+        <script src="public/js/general.js"></script>
         <div id="content">
             <?= $content ?>
         </div>

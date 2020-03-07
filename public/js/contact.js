@@ -1,6 +1,7 @@
 class Contact {
 	constructor () {
 		this.verifError();
+		this.general = new General();
 	}
 
 	verifError ()
@@ -18,42 +19,45 @@ class Contact {
 			let message = $("input[name='message']").val();
 
 			$("#errorContact").remove();
-
+			$("#validContact").remove();
+			
 			$("input[name='mail']").css("border","");
 			$("input[name='lastName']").css("border","");
 			$("input[name='message']").css("border","");
 			$("input[name='tel']").css("border","");
 			$("input[name='name']").css("border","");
 
-			if (!this.isMail(mail)) {
+			if (!this.general.isMail(mail)) {
 				error = "Le mail n'est pas correct.";
 				errorBol = true;
 				$("input[name='mail']").css("border","solid 3px red");
 			} 
 
-			if (this.emptyTest(lastName)) {
+			if (this.general.emptyTest(lastName)) {
 				error = "Vous n'avez pas renseigné votre prénom.";
 				errorBol = true;
 				$("input[name='lastName']").css("border","solid 3px red");
 			}
 
-			if (this.emptyTest(message)) {
+			if (this.general.emptyTest(message)) {
 				error = "Vous n'avez pas écrit de message.";
 				errorBol = true;
 				$("input[name='message']").css("border","solid 3px red");
 			}
 
-			if (!this.emptyTest(tel)) {
+			if (!this.general.emptyTest(tel)) {
 				let parseTel = tel.replace("-","");
 				parseTel = parseTel.replace(" ","");
 				parseTel = parseInt(parseTel);
 				if (!$.isNumeric(parseTel)) {
 					error = "Votre numéro est invalide";
 					$("input[name='tel']").css("border","solid 3px red");
-				}
+				} 
+			} else {
+				tel = 1111;
 			}
 
-			if (this.emptyTest(name)) {
+			if (this.general.emptyTest(name)) {
 				error = "Vous n'avez pas renseigné votre Nom.";
 				errorBol = true;
 				$("input[name='name']").css("border","solid 3px red");
@@ -70,9 +74,8 @@ class Contact {
 	sendMail (name,lastName,mail,tel,message)
 	{
 		$.ajax({
-			url: 'http://".$_SERVER['SERVER_NAME']."/p5_florent_mateos/index.php?action=contact',
+			url: 'http://localhost/p5_florent_mateos/index.php?action=contact',
 			type: 'POST',
-			dataType: '',
 			data: {
 				name : name,
 				lastName : lastName,
@@ -80,22 +83,12 @@ class Contact {
 				tel : tel,
 				message : message,
 			},
-		});
-		
-	}
-
-	isMail(email) 
-	{
-  		var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-  		return regex.test(email);
-	}
-
-	emptyTest (variable) 
-	{
-		if (variable.length === 0 || /^\s*$/.test(variable)) {
-    		return true;
-    	} else {
-    		return false;
-    	}
+			success :  function () {
+				$("#contactForm").append('<p id="validContact">Votre message à été envoyé</p>');
+			},
+			error : function() {
+				$("#contactForm").append('<p id="errorContact">Votre message n\'a pue être envoyé</p>');
+			},
+		});	
 	}
 }
