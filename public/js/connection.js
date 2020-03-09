@@ -5,17 +5,19 @@ class Connection {
 	}
 
 	verifConnection () 
-	{
+	{		
 		$("#submitConect").on("click", (e)=>{
 			e.preventDefault();
 
-			let email = $("input[name='emailConect']").val();
-			let pwd = $("input[name='pwdConect']").val();
+			error = false;
 
 			$(".error").remove();
 
 			$("input[name='emailConect']").css("border","");
 			$("input[name='pwdConect']").css("border","");
+
+			let email = $("input[name='emailConect']").val();
+			let pwd = $("input[name='pwdConect']").val();
 
 			if (!this.general.isMail(email)) {
 				error = true;
@@ -28,7 +30,7 @@ class Connection {
 				$("input[name='pwdConect']").css("border","solid 3px red");
 			}
 
-			if (!$error) {
+			if (error === false) {
 				$("#connectionForm").submit();
 			} else {
 				$("#connexion").append("<p class='error'>"+error+"</p>");
@@ -40,7 +42,12 @@ class Connection {
 	{
 		$("#submitSignin").on('click', (e)=> {
 			e.preventDefault();
-			
+
+			$("input[name='email']").css("border","");
+			$("input[name='first_name']").css("border","");
+			$("input[name='last_name']").css("border","");
+			$("input[name='password']").css("border","");
+
 			$(".error").remove();
 			$(".valid").remove();
 
@@ -49,10 +56,6 @@ class Connection {
 			let last_name = $("input[name='last_name']").val();
 			let password = $("input[name=''password]").val();
 
-			$("input[name='email']").css("border","");
-			$("input[name='first_name']").css("border","");
-			$("input[name='last_name']").css("border","");
-			$("input[name='password']").css("border","");
 
 			if (!this.general.isMail(email)) {
 				error = true;
