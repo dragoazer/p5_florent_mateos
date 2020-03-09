@@ -1,3 +1,2 @@
-this.general.requireJsFiles();
-let diaporama = new Diaporama("#glissement");
+let general = new General; // all required files are in this class
 

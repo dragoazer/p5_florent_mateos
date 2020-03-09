@@ -18,6 +18,7 @@
 
 		public function displaySignin ()
 		{
+			$javascript = "<script src='public/js/connection.js'></script>";
 			require("template/registration.php");
 		}
 

@@ -1,4 +1,11 @@
 class General {
+
+	constructor ()
+	{
+		this.requireJsFiles();
+		general = new General;
+	}
+
 	isMail(email) 
 	{
   		var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -25,15 +32,19 @@ class General {
 
 	requireJsFiles ()
 	{
-		action = URLSearchParams.get(action);
-		switch (action) {
-			case 'redirectContact':
-				let contact = new Contact();
-			break;
+		$(window).on('load', ()=> {
+			let diaporama = new Diaporama("#glissement");
+			let searchUrl = new URLSearchParams(document.location.search.substring(1));
+			let action = searchUrl.get("action");
+			switch (action) {
+				case 'redirectContact':
+					let contact = new Contact();
+				break;
 
-			case 'signin':
-				let connection = new Connection();
-			break;
-		}
+				case 'signin':
+					let connection = new Connection();
+				break;
+			}		
+		});
 	}
 } 
