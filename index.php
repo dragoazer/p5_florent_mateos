@@ -59,6 +59,10 @@
         	case 'disconnect' :
                 $accountController->disconnect();
                 break;
+
+            case 'modifyAccount':
+                $accountController->modifyAccount();
+                break;
         }
     } else {
     	$generalController->displayHome();

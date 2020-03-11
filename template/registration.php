@@ -31,7 +31,7 @@
 					<label for="pwdConect">Prénom</label>
 					<input type="text" name="last_name" class="form-control">
 					<label for="pwdConect">Mot de passe</label>
-					<input type="password" name="pwd" class="form-control">
+					<input type="password" name="password" class="form-control">
 					<p><input type="submit" class="btn btn-secondary signinButton" id="submitSignin" value="Inscription"></p>
 				</form>
 			</div>

@@ -2,6 +2,7 @@ class Connection {
 	constructor () {
 		this.verifInscription();
 		this.verifConnection();
+		this.general = new General;
 	}
 
 	verifConnection () 
@@ -9,7 +10,8 @@ class Connection {
 		$("#submitConect").on("click", (e)=>{
 			e.preventDefault();
 
-			error = false;
+			let error = false;
+			let errorMsg = '';
 
 			$(".error").remove();
 
@@ -24,7 +26,7 @@ class Connection {
 				errorMsg = "Le courriel est erroné.";
 				$("input[name='emailConect']").css("border","solid 3px red");
 			}
-			if (this.general.emptyTest(pwd)) {
+			if (!this.general.emptyTest(pwd)) {
 				error = true;
 				errorMsg = "Vous n'avez pas rempli le champs mot de passe.";
 				$("input[name='pwdConect']").css("border","solid 3px red");
@@ -33,7 +35,7 @@ class Connection {
 			if (error === false) {
 				$("#connectionForm").submit();
 			} else {
-				$("#connexion").append("<p class='error'>"+error+"</p>");
+				$("#connexion").append("<p class='error'>"+errorMsg+"</p>");
 			}
 		});
 	}
@@ -42,6 +44,9 @@ class Connection {
 	{
 		$("#submitSignin").on('click', (e)=> {
 			e.preventDefault();
+
+			let error = false;
+			let errorMsg = '';
 
 			$("input[name='email']").css("border","");
 			$("input[name='first_name']").css("border","");
@@ -54,7 +59,7 @@ class Connection {
 			let email= $("input[name='email']").val();
 			let first_name = $("input[name='first_name']").val();
 			let last_name = $("input[name='last_name']").val();
-			let password = $("input[name=''password]").val();
+			let password = $("input[name='password']").val();
 
 
 			if (!this.general.isMail(email)) {
@@ -64,24 +69,24 @@ class Connection {
 			}
 			if (this.general.emptyTest(first_name)) {
 				error = true;
-				errorMsg = "Le champs Email n'est pas valide.";
+				errorMsg = "Le champs nom est vide.";
 				$("input[name='first_name']").css("border","solid 3px red");
 			}
 			if (this.general.emptyTest(last_name)) {
 				error = true;
-				errorMsg = "Le champs Email n'est pas valide.";
+				errorMsg = "e champs prénom est vide..";
 				$("input[name='last_name']").css("border","solid 3px red");
 			}
-			if (this.general.pdwTest(password)) {
+			if (!this.general.pwdTest(password)) {
 				error = true;
-				errorMsg = "Le champs Email n'est pas valide.";
-				$("input[name='password']").css("border","solid 3px red");
+				errorMsg = "Le champs mot de passe ne compte pas huit caractères une majuscule et un chiffre.";
+				$("input[name='pwd']").css("border","solid 3px red");
 			}
 
 			if (!error) {
 				this.ajaxInscription(email,first_name,last_name,password);
 			} else {
-				$("#inscription").append("<p class='error'>"+error+"</p>");
+				$("#inscription").append("<p class='error'>"+errorMsg+"</p>");
 			}
 		});
 	}
