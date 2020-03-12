@@ -1,6 +1,7 @@
 <?php
 	$title = 'Inscription / Connexion';
 	$css = "public/css/style.css";
+	$javascript = "<script src='public/js/connection.js'></script>";
 	ob_start(); 
 ?>
 	<div id="contactForm">

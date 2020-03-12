@@ -48,7 +48,7 @@
 		public function displayAccount (string $email) 
 		{
 			
-			$req = $this->dbConnect()->prepare("SELECT email, last_name, first_name, profile_picture FROM account WHERE email=?");
+			$req = $this->dbConnect()->prepare("SELECT id, email, first_name, last_name, profile_picture FROM account WHERE email=?");
 			$req->execute(array(
 				$email,
 			));
@@ -58,5 +58,24 @@
 			} else {
 				return "error";
 			}
+		}
+
+		public function updateAccount (Account $account)
+		{
+			$req = $this->dbConnect()->prepare("UPDATE account SET pwd = :pwd, profile_picture = :profile_picture WHERE email= :email");
+			$req->execute(array(
+				"pwd" => $account->pwd(),
+				"profile_picture" => $account->profile_picture(),
+				"email" => $account->email(),
+			));
+		}
+
+		public function updateProfile (Account $account)
+		{
+			$req = $this->dbConnect()->prepare("UPDATE account SET  profile_picture = :profile_picture WHERE email= :email");
+			$req->execute(array(
+				"profile_picture" => $account->profile_picture(),
+				"email" => $account->email(),
+			));
 		}	
 	}

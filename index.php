@@ -29,8 +29,8 @@
         		$generalController->sendContact();
         		break;
         ///////////////////////// Quote Controller ///////////////////
-        	case 'redirectQuote':
-        		$quoteController->redirectQuote();
+        	case 'showQuote':
+        		$quoteController->showQuote();
         		break;
 
         	case 'quote':

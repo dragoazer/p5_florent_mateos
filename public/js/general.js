@@ -50,6 +50,11 @@ class General {
 
 				case 'account':
 					let memberAccount = new MemberAccount();
+				break;
+
+				case 'displayQuote':
+					let quote = new Quote();
+				break;
 			}		
 		});
 	}

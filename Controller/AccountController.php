@@ -20,7 +20,6 @@
 
 		public function displaySignin ()
 		{
-			$javascript = "<script src='public/js/connection.js'></script>";
 			require("template/registration.php");
 		}
 
@@ -119,36 +118,49 @@
 					$javascript = "<script src='public/js/connection.js'></script>";
 					require("template/admin.php");
 				}
+			} else {
+				$title = "Connexion échoué";
+				$message = "Impossible de vous connectez, veuillez vous rendre sur la page de <a href='index.php?action=signin'>connexion</a>.";
+				$this->generalController->displayError($title,$message);
 			}
 		}
 
 		public function modifyAccount ()
 		{
 			$error = false;
-			if (!isset($_POST['email']) AND !isset($_POST['first_name']) AND !isset($_POST['last_name']) AND !isset($_FILES['profile_picture'])) {
-				$error = true;
-			}
-			if (empty($_POST['email']) AND empty($_POST['first_name']) AND empty($_POST['last_name']) AND empty($_FILES['profile_picture'])) {
-				$error = true;
-			}
-			if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-				$error = true;
+
+
+			if (!isset($_FILES['profile_picture']) AND empty($_FILES['profile_picture'])) {
+				$profile_picture = "public/image/basicProfile.png";
+			} else {
+				$extensions = array('.png', '.gif', '.jpg', '.jpeg');
+				$fileExt = strrchr($_FILES['profile_picture']['name'], '.');
+
+				$fileSize = 100000;
+				$size = filesize($_FILES['profile_picture']['tmp_name']);
+
+				$folder = 'public/image/';
+	     		$fileName = basename($_FILES['profile_picture']['name']);
+	     		$profile_picture = $folder.$fileName;
+
+	     		move_uploaded_file($_FILES['profile_picture']['tmp_name'], $profile_picture);
+
+				if(!in_array($fileExt, $extensions)) {
+	     			$error = true;
+				}
+
+				if($size>$fileSize) {
+	     			$error = true;
+				}
 			}
 			
-						if (preg_match("/([a-zA-Z0-9._-]){8}/", $_POST['password'])) {
- else {
-								$error = true;
-							}
-						}
-					} else {
-						$error = true;
-					}			
-				} else {
+			if (isset($_POST['password'])) {
+				if (!preg_match("/([a-zA-Z0-9._-]){8}/", $_POST['password'])) {
 					$error = true;
-				}
-			} else {
-				$error = true;
-			}
+ 				} 
+ 			} else {
+ 				$noPwd = true;
+ 			}
 
 			if ($error === true) {
 				$title = "Inscription échoué";
@@ -156,16 +168,21 @@
 				$this->generalController->displayError($title,$message);
 			} else {
 				$data = [
-					"first_name" => $_POST['first_name'],
-					"last_name" => $_POST['last_name'],
-					"email" => $_POST['email'],
-					"pwd" => password_hash($_POST['password'], PASSWORD_DEFAULT),
+					"profile_picture" => $profile_picture,
+					"pwd" => isset($noPwd) === false? password_hash($_POST['password'], PASSWORD_DEFAULT) : "",
+					"email" => $_SESSION["email"]
 				];
 				$account = new Account($data);
-				$connected = $this->accountModel->setRegistration($account);
-				if ($connected != "error") {
-					$title = "Inscription réussie";
-					$message = "Vous avez bien été inscript, veuillez vous redirigé vers la page de connexion.";
+				if ($noPwd) {
+					$modify = $this->accountModel->updateProfile($account);
+				} else {
+					$modify = $this->accountModel->updateAccount($account);
+				}
+				if ($modify != "error") {
+					header("Location: http://".$_SERVER['SERVER_NAME']."/p5_florent_mateos/index.php?action=account");
+				} else {
+					$title = "Modification échoué";
+					$message = "La modification de votre compte à échoué, veuillez réessayer.";
 					$this->generalController->displayError($title,$message);
 				}
 			}
