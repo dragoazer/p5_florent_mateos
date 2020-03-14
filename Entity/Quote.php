@@ -30,8 +30,8 @@
 		public function id_user() { return $this->id_user;}
 		public function creation_date() { return $this->creation_date;}
 		public function validated() { return $this->validated;}
-		public function com_admin() { return $this->com_admin;}
-		public function com_member() { return $this->com_member;}
+		public function com_admin() { return htmlentities($this->com_admin);}
+		public function com_member() { return htmlentities($this->com_member);}
 		public function city_name() { return $this->city_name;}
 		public function number_tract() { return $this->number_tract;}
 		public function price() { return $this->price;}

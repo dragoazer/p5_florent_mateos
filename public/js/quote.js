@@ -101,7 +101,6 @@ class Quote {
 			{	
 				let data = jQuery.parseJSON(response);
 				$("#showQuote").append("<p>Voici la liste des devis. Actuellement "+data.number+" devis.</p><hr>");
-				if (data.status === "member") {
 					data.quote.forEach((value)=>{
 						if (value.validated === 0) {
 							var valid = '<p class="error">Devis non validé</p>';
@@ -116,14 +115,18 @@ class Quote {
 						} else {
 							var com_admin = "<p>Pas de message de l'administrateur.</p>";
 						}
-						let com_member = "<p> Votre commentaire: "+value.com_member+"<br><a class='btn btn-secondary' href='index.php?action=modifyComMember&id="+value.id+"'>Modifier le commentaire</a></p>";
+						if (data.status === "member") {
+							var com_member = "<p> Votre commentaire: "+value.com_member+"<br><a class='btn btn-secondary' href='index.php?action=redirectCom&id="+value.id+"'>Modifier le commentaire</a></p>";
+							
+						} else {
+							var com_member = "<p>Le commentaire client : "+value.com_member+"</p>";
+							var str2 = "<a class='btn btn-secondary' href='index.php?action=redirectCom&id="+value.id+"'>Modifier le commentaire</a>";
+							com_admin.concat(' ', str2)
+						}
 						let number_tract = "<p>Nombre de prospectus: "+value.number_tract+"</p>";
 						let price = "<p>Prix du devis: "+value.price+"</p>";
 						$("#showQuote").append("<div>"+city_name+creation_date+com_admin+com_member+number_tract+price+valid+"<hr></div>");
 					});
-				} else {
-
-				}
 				let gestionPage = "<div class='page'><div>";
 				$("#showQuote").append(gestionPage);
 				$("#showQuote").prepend(gestionPage);
@@ -131,13 +134,10 @@ class Quote {
 					let page = i+1;
 					if (i === showPage) {
 						$(".page").append("<span class='selectPage active "+i+"'>"+page+"</span>");
-						console.log("active");
 					} else {
 						$(".page").append("<span class='selectPage noActive "+i+"'>"+page+"</span>");
-						console.log(" no active");
 					}
 					$("."+i).on('click',  function() {
-						console.log(i);
 						that.showQuote(i);
 					});
 				}

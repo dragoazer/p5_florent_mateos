@@ -71,4 +71,32 @@
 				"price" => $quote->price() 
 			));
 		}
+
+		public function verifyAut (Quote $quote)
+		{
+			$req = $this->dbConnect()->prepare('SELECT city_name FROM quote WHERE id = :id AND id_user = :id_user');
+			$req->execute(array(
+				'id' => $quote->id(),
+				'id_user' => $quote->id_user(),
+			));
+			return $req->rowCount();
+		}
+
+		public function modifyComm (Quote $quote)
+		{
+			$req = $this->dbConnect()->prepare("UPDATE quote SET  com_member = :com_member WHERE id = :id");
+			$req->execute(array(
+				'com_member' => $quote->com_member(),
+				'id' => $quote->id(),
+			));
+		}
+
+		public function modifyComAdmin (Quote $quote)
+		{
+			$req = $this->dbConnect()->prepare("UPDATE quote SET  com_admin = :com_admin WHERE id = :id");
+			$req->execute(array(
+				'com_admin' => $quote->com_admin(),
+				'id' => $quote->id(),
+			));
+		}
 	}

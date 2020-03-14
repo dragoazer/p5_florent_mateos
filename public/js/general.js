@@ -61,10 +61,6 @@ class General {
 					let connection = new Connection();
 				break;
 
-				case 'account':
-					let memberAccount = new MemberAccount();
-				break;
-
 				case 'displayQuote':
 					let quote = new Quote();
 				break;

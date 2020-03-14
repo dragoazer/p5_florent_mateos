@@ -6,9 +6,7 @@
 	use Distribution\Controller\AccountController;
 	use Distribution\Controller\QuoteController;
 	use Distribution\Controller\GeneralController;
-	use Distribution\Controller\BookController;
 
-	$bookController = new bookController();
 	$quoteController  = new QuoteController();
 	$accountController =  new AccountController();
 	$generalController = new GeneralController();
@@ -36,9 +34,18 @@
         	case 'quote':
         		$quoteController->sendQuote();
         		break;
+
         	case 'displayQuote':
         		$quoteController->displayQuote();
         		break;
+
+            case 'redirectCom':
+                $quoteController->redirectCom();
+                break;
+
+            case 'modifyCom':
+                $quoteController->modifyCom();
+                break;
 
        	///////////////////////// Account Controller ///////////////////
         	case 'account':
