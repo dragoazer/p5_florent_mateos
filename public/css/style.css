@@ -24,3 +24,31 @@
 	color: green;
 	font-weight: bold;
 }
+
+.selectPage {
+	border: solid black 3px;
+	border-radius: 100%;
+	padding: 7px;
+	margin: 3px;
+	text-align: center;
+}
+
+.selectPage:hover {
+	cursor: pointer;
+}
+
+.page {
+	transform: translate(-50%,0);
+	margin-left: 50%;
+	text-align: center;
+}
+
+.active {
+	color: white;
+	background: black;
+}
+
+.noActive {
+	color: black;
+	background: white;
+}

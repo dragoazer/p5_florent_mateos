@@ -26,7 +26,7 @@ class Connection {
 				errorMsg = "Le courriel est erroné.";
 				$("input[name='emailConect']").css("border","solid 3px red");
 			}
-			if (!this.general.emptyTest(pwd)) {
+			if (this.general.emptyTest(pwd)) {
 				error = true;
 				errorMsg = "Vous n'avez pas rempli le champs mot de passe.";
 				$("input[name='pwdConect']").css("border","solid 3px red");
@@ -77,14 +77,16 @@ class Connection {
 				errorMsg = "e champs prénom est vide..";
 				$("input[name='last_name']").css("border","solid 3px red");
 			}
-			if (!this.general.pwdTest(password)) {
+			if (this.general.pwdTest(password) === false) {
 				error = true;
 				errorMsg = "Le champs mot de passe ne compte pas huit caractères une majuscule et un chiffre.";
-				$("input[name='pwd']").css("border","solid 3px red");
+				$("input[name='password']").css("border","solid 3px red");
 			}
 
 			if (!error) {
 				this.ajaxInscription(email,first_name,last_name,password);
+				$("#connexion").append("<p class='valid'>inscription validé, veuillez vous connecter</p>");
+				$("#inscription").append("<p class='valid'>inscription validé, veuillez vous connecter</p>");
 			} else {
 				$("#inscription").append("<p class='error'>"+errorMsg+"</p>");
 			}

@@ -4,7 +4,7 @@
 	/**
 	* 
 	*/
-	class Quote
+	class Quote implements \JsonSerializable
 	{
 		private $id;
 		private $id_user;
@@ -14,11 +14,17 @@
 		private $com_member;
 		private $city_name;
 		private $number_tract;
+		private $price;
 
 		public function __construct (array $data)
 	    {
 	      $this->hydrate($data);
 	    }
+
+		public function jsonSerialize ()
+		{
+			return get_object_vars($this);
+		}
 
 		public function id() { return $this->id;}
 		public function id_user() { return $this->id_user;}
@@ -28,6 +34,7 @@
 		public function com_member() { return $this->com_member;}
 		public function city_name() { return $this->city_name;}
 		public function number_tract() { return $this->number_tract;}
+		public function price() { return $this->price;}
 
 		public function hydrate(array $data)
 	    {
@@ -107,5 +114,13 @@
    			{
       			$this->number_tract = $number_tract;
     		} 
-	    }  
+	    }
+
+	    public function setPrice ($price)
+	    {
+	    	 $price = (int) $price;
+	    	 if ($price > 0) {
+	    	 	$this->price = $price;
+	    	 }
+	    }
 	}

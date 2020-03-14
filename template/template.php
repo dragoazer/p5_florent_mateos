@@ -86,5 +86,5 @@
     <!-- js initialized in controller -->
     <?= $javascript ?? "" ?>
     <!-- js.js is class loader, charge him on last -->
-    <<script src="public/js/js.js"></script>
+    <script src="public/js/js.js"></script>
 </html>

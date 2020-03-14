@@ -72,7 +72,7 @@
 
 		public function updateProfile (Account $account)
 		{
-			$req = $this->dbConnect()->prepare("UPDATE account SET  profile_picture = :profile_picture WHERE email= :email");
+			$req = $this->dbConnect()->prepare("UPDATE account SET  profile_picture = :profile_picture WHERE email = :email");
 			$req->execute(array(
 				"profile_picture" => $account->profile_picture(),
 				"email" => $account->email(),

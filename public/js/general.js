@@ -1,11 +1,19 @@
 class General {
-
 	constructor ()
 	{
 		this.requireJsFiles();
 	}
 
-	isMail(email) 
+	haveDigit (variable)
+	{
+		if (variable.match(/\d+/g)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	isMail (email) 
 	{
   		var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
   		return regex.test(email);
@@ -13,7 +21,7 @@ class General {
 
 	emptyTest (variable) 
 	{
-		if (variable === NaN || variable === undefined || variable == null || variable.length <= 0 || /^\s*$/.test(variable) || variable.match(/\d+/g)) {
+		if (variable === NaN || variable === undefined || variable == null || variable.length <= 0 || /^\s*$/.test(variable)) {
     		return true;
     	} else {
     		return false;
@@ -23,7 +31,7 @@ class General {
 	pwdTest (password)
 	{	
 		if (password != undefined && password != null) {
-			if (password.match(/\d+/g) && password.length >= 8 /*&& password.match(/\p+/g) && password.match(/\P+/g)*/) {
+			if (password.match(/\d+/g) && password.length >= 8 ) {
 				return true;
 			} else {
     			return false;
@@ -31,6 +39,11 @@ class General {
 		} else {
 			return false;
 		}
+	}
+
+	convertDate(dateString){
+		let p = dateString.split(/\D/g);
+		return [p[2],p[1],p[0] ].join("/");
 	}
 
 	requireJsFiles ()

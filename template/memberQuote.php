@@ -6,33 +6,29 @@
 ?>
 
 	<h4>Nouveau devis :</h4>
-	<form>
+	<form id="createQuote">
 		<label>Ville de distribution :</label>
-		<input type="text" name="" class="form-control">
+		<input type="text" name="city_name" class="form-control">
 		<label>Nombre de prospectus:</label>
-		<input type="number" name="" class="form-control">
-		<p>
-			<label for="scales">Format plus grand que A4</label>
-			<input type="checkbox" id="" name="">
-		</p>
+		<input type="number" name="number_tract" class="form-control">
 		<label>précision supplémentaire :</label>
 		<input type="text" name="com_member" class="form-control">
+		<p id="price">Prix HT prévue : </p>
 		<input type="submit" id='newQuote' class="btn btn-secondary signinButton">
 	</form>
+	<hr>
 	<?php
         if ($_SESSION["connected"] === "admin"):
     ?>
+    	<h4>Liste des devis à accepter</h4>
 	    <div id="showQuote">
-	    	<p>Liste des devis à accepter</p>
-	    	<hr>
 	    </div>
     <?php 	
 		endif; 
         if ($_SESSION["connected"] === "member"):
     ?>
+    	<h4>Liste des devis envoyés.</h4>
 	    <div id="showQuote">
-	    	<p>Liste des devis envoyés.</p>
-	    	<hr>
 	    </div>
     <?php 	
 		endif; 

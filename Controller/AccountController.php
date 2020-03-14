@@ -43,8 +43,8 @@
 					$login = $this->accountModel->login($account);
 					if ($login != "error") {
 						$bddEmail = $login->email();
-						$bddUserType= $login->user_type();
-						$bddPwd= $login->pwd();
+						$bddUserType = $login->user_type();
+						$bddPwd = $login->pwd();
 						if (password_verify($pwd, $bddPwd)) {
 							$_SESSION["connected"] = $login->user_type();
 							$_SESSION["name"] = $login->last_name()." ".$login->first_name();
@@ -84,7 +84,7 @@
 							$connected = $this->accountModel->setRegistration($account);
 							if ($connected != "error") {
 								$title = "Inscription réussie";
-								$message = "Vous avez bien été inscript, veuillez vous redirigé vers la page de connexion.";
+								$message = "Vous avez bien été inscript, veuillez vous redirigé vers la page de <a href='index.php?action=signin'>connexion</a>.";
 								$this->generalController->displayError($title,$message);
 							} else {
 								$error = true;
@@ -102,7 +102,7 @@
 
 			if ($error === true) {
 				$title = "Inscription échoué";
-				$message = "Les renseignements que vous avez prodigués sont erronés.";
+				$message = "Les renseignements que vous avez prodigués sont erronés. Redirection vers la page d'inscription : <a href='index.php?action=signin'>connexion</a>";
 				$this->generalController->displayError($title,$message);
 			}
 		}
@@ -129,32 +129,23 @@
 		{
 			$error = false;
 
-
+			///////////////////////////////////////// FILE
 			if (!isset($_FILES['profile_picture']) AND empty($_FILES['profile_picture'])) {
 				$profile_picture = "public/image/basicProfile.png";
 			} else {
-				$extensions = array('.png', '.gif', '.jpg', '.jpeg');
-				$fileExt = strrchr($_FILES['profile_picture']['name'], '.');
-
-				$fileSize = 100000;
-				$size = filesize($_FILES['profile_picture']['tmp_name']);
-
-				$folder = 'public/image/';
-	     		$fileName = basename($_FILES['profile_picture']['name']);
-	     		$profile_picture = $folder.$fileName;
-
-	     		move_uploaded_file($_FILES['profile_picture']['tmp_name'], $profile_picture);
-
-				if(!in_array($fileExt, $extensions)) {
-	     			$error = true;
-				}
-
-				if($size>$fileSize) {
-	     			$error = true;
+				if ($_FILES['profile_picture']['size'] <= 1000000) {
+					$infosfichier = pathinfo($_FILES['profile_picture']['name']);
+					$extension_upload = $infosfichier['extension'];
+					$extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
+					if (in_array($extension_upload, $extensions_autorisees)) {
+						move_uploaded_file($_FILES['profile_picture']['tmp_name'], 'public/image/' . basename($_FILES['profile_picture']['name']));
+					} else {
+						$error = true;
+					}
 				}
 			}
-			
-			if (isset($_POST['password'])) {
+			///////////////////////////////////////// PASSWORD
+			if (isset($_POST['password']) AND !empty($_POST['password'])) {
 				if (!preg_match("/([a-zA-Z0-9._-]){8}/", $_POST['password'])) {
 					$error = true;
  				} 
@@ -167,24 +158,23 @@
 				$message = "Les renseignements que vous avez prodigués sont erronés.";
 				$this->generalController->displayError($title,$message);
 			} else {
-				$data = [
-					"profile_picture" => $profile_picture,
-					"pwd" => isset($noPwd) === false? password_hash($_POST['password'], PASSWORD_DEFAULT) : "",
-					"email" => $_SESSION["email"]
-				];
-				$account = new Account($data);
 				if ($noPwd) {
+					$data = [
+						"profile_picture" => $profile_picture,
+						"email" => $_SESSION["email"]
+					];
+					$account = new Account($data);
 					$modify = $this->accountModel->updateProfile($account);
 				} else {
+					$data = [
+						"profile_picture" => $profile_picture,
+						"pwd" => password_hash($_POST['password'], PASSWORD_DEFAULT),
+						"email" => $_SESSION["email"]
+					];
+					$account = new Account($data);
 					$modify = $this->accountModel->updateAccount($account);
-				}
-				if ($modify != "error") {
-					header("Location: http://".$_SERVER['SERVER_NAME']."/p5_florent_mateos/index.php?action=account");
-				} else {
-					$title = "Modification échoué";
-					$message = "La modification de votre compte à échoué, veuillez réessayer.";
-					$this->generalController->displayError($title,$message);
-				}
+				}			
+				header("Location: http://".$_SERVER['SERVER_NAME']."/p5_florent_mateos/index.php?action=account");
 			}
 		}
 	}

@@ -11,7 +11,7 @@
 	<form id="modifyAccount" action="index.php?action=modifyAccount" method="POST">
 		<p>
 			<label>Mot de passe</label>
-			<input class="form-control" type="password" name="" placeholder="Nouveau mot de passe.">
+			<input class="form-control" type="password" name="password" placeholder="Nouveau mot de passe.">
 		</p>
 		<p>
 			<p>Image de profil actuelle :</p>

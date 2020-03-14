@@ -21,7 +21,7 @@ class MemberAccount {
 			let password = $("input[name='password']").val();
 
 
-			if (password != undefined) {
+			if (!this.general.emptyTest(password)) {
 				if (!this.general.pwdTest(password)) {
 					error = true;
 					errorMsg = "Le champs mot de passe ne compte pas huit caractères une majuscule et un chiffre.";
